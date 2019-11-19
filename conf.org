@@ -147,6 +147,11 @@ A template to support consistent properties in reference documents.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'org-mode-hook 'org-bullets-mode)
 #+END_SRC
+**** Ensure truncate lines is nil
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook (lambda ()
+  (setq truncate-lines nil)))
+#+END_SRC
 *** Agenda Files
 I do work in the projects dir, and this can be deeply nested.
 **** Recursive function to find nested files
