@@ -248,6 +248,11 @@ If FILEXT is provided, return files with extension FILEXT instead."
 #+END_SRC
 *** Docker
 #+BEGIN_SRC emacs-lisp
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
 (use-package dockerfile-mode
   :ensure t)
 #+END_SRC
