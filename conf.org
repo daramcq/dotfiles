@@ -218,6 +218,8 @@ If FILEXT is provided, return files with extension FILEXT instead."
 (add-hook 'ruby-mode-hook 'rubocop-mode)
 (use-package enh-ruby-mode
   :ensure t)
+(use-package inf-ruby
+  :ensure t)
  #+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
