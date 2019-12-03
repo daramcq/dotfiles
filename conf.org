@@ -212,7 +212,7 @@ If FILEXT is provided, return files with extension FILEXT instead."
 #+END_SRC
 *** Ruby
  Just Rubocop for now. Should add some additional stuff to make it more useful
- #+BEGIN_SRC 
+ #+BEGIN_SRC emacs-lisp
 (use-package rubocop
   :ensure t)
 (add-hook 'ruby-mode-hook 'rubocop-mode)
