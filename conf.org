@@ -33,7 +33,7 @@
 #+END_SRC
 ** Font Display
 #+BEGIN_SRC emacs-lisp
-(if (at-work)
+(when (at-work)
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Fira Code 20" nil t))
 #+END_SRC
