@@ -176,10 +176,14 @@ The greatest thing about Emacs
 (add-hook 'org-mode-hook (lambda ()
   (setq truncate-lines nil)))
 #+END_SRC
-*** Set up org-capture
+*** Setup org-capture
 #+BEGIN_SRC emacs-lisp
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (global-set-key (kbd "C-c c") 'org-capture)
+#+END_SRC
+**** Use outline path
+#+BEGIN_SRC emacs-lisp
+(setq org-refile-use-outline-path t)
 #+END_SRC
 *** Properties template
 Use this for defining properties on documents.
