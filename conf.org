@@ -280,9 +280,9 @@ A template to support consistent properties in reference documents.
 #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp
-(use-package dracula-theme
+(use-package cyberpunk-theme
   :ensure t)
-(load-theme 'dracula t)
+(load-theme cyberpunk t)
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
