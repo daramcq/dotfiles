@@ -226,7 +226,6 @@ A template to support consistent properties in reference documents.
 (show-paren-mode 1)
 #+END_SRC
 *** Ruby
- Just Rubocop for now. Should add some additional stuff to make it more useful
  #+BEGIN_SRC emacs-lisp
 (use-package rubocop
   :ensure t)
@@ -235,6 +234,10 @@ A template to support consistent properties in reference documents.
   :ensure t)
 (use-package inf-ruby
   :ensure t)
+(use-package yard-mode
+  :ensure t)
+(add-hook 'ruby-mode-hook 'yard-mode)
+(add-hook 'ruby-mode-hook 'eldoc-mode)
  #+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
