@@ -286,7 +286,7 @@ A template to support consistent properties in reference documents.
 #+BEGIN_SRC emacs-lisp
 (use-package cyberpunk-theme
   :ensure t)
-(load-theme cyberpunk t)
+(load-theme 'cyberpunk)
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
