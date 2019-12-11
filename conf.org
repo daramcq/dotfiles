@@ -221,6 +221,15 @@ A template to support consistent properties in reference documents.
 #+BEGIN_SRC emacs-lisp
 (find-file org-default-notes-file)
 #+END_SRC
+** Thing at Point
+#+BEGIN_SRC emacs-lisp
+(use-package thingatpt
+  :ensure t)
+#+END_SRC
+** WIP Additional comment functionality
+#+BEGIN_SRC emacs-lisp
+(string-match "^\s*#"  (thing-at-point 'line))
+#+END_SRC
 ** Configuring Programming Modes
 *** Generic
 #+BEGIN_SRC emacs-lisp
