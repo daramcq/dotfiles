@@ -97,6 +97,10 @@ I'm not a monster
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 #+END_SRC
+*** Enable narrow region
+#+BEGIN_SRC emacs-lisp
+(put 'narrow-to-region 'disabled nil)
+#+END_SRC
 ** Magit
 Magit is so good. It really is great.
 #+BEGIN_SRC emacs-lisp
@@ -105,7 +109,7 @@ Magit is so good. It really is great.
 (global-set-key (kbd "C-x g") 'magit-status)
 #+END_SRC
 ** Org-Mode
-The greatest thing about Emacs
+The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
 *** Basic setup
  #+BEGIN_SRC emacs-lisp
 (use-package org-alert
@@ -177,12 +181,12 @@ The greatest thing about Emacs
 (add-hook 'org-mode-hook (lambda ()
   (setq truncate-lines nil)))
 #+END_SRC
-*** Setup org-capture
+*** Set up org-capture
 #+BEGIN_SRC emacs-lisp
 (setq org-default-notes-file (concat org-directory "/notes.org"))
 (global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
-**** Use outline path
+**** Use outline path for refiling
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-use-outline-path t)
 #+END_SRC
@@ -204,8 +208,11 @@ A template to support consistent properties in reference documents.
                       ":Date: \n"
                       ":Genre: ")))
 #+END_SRC
-*** Configuring behaviour
 *** Startup behaviour
+**** Open conf.org
+#+BEGIN_SRC emacs-lisp
+(find-file "~/dotfiles/conf.org")
+#+END_SRC
 **** Open todo
 #+BEGIN_SRC emacs-lisp
 (find-file (concat org-directory "/todo.org"))
@@ -284,9 +291,9 @@ A template to support consistent properties in reference documents.
 #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp
-(use-package cyberpunk-theme
+(use-package afternoon-theme
   :ensure t)
-(load-theme 'cyberpunk)
+(load-theme 'afternoon t)
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
