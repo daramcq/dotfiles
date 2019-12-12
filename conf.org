@@ -37,6 +37,10 @@
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Fira Code 20" nil t))
 #+END_SRC
+** Enable narrow region
+#+BEGIN_SRC emacs-lisp
+(put 'narrow-to-region 'disabled nil)
+#+END_SRC
 ** Powerline
 #+BEGIN_SRC emacs-lisp
 (use-package powerline
@@ -90,16 +94,87 @@ This will stop Emacs adding customised settings to ~init.el~.
   )
 #+END_SRC
 ** Coding Style
-*** Spaces not tabs
+** Configuring Programming Modes
+*** Generic
+#+BEGIN_SRC emacs-lisp
+(use-package paredit
+  :ensure t)
+(use-package flycheck
+  :ensure t)
+#+END_SRC
+**** Parentheses
+#+BEGIN_SRC emacs-lisp
+(show-paren-mode 1)
+#+END_SRC
+**** Spaces not tabs
 I'm not a monster
 #+BEGIN_SRC emacs-lisp
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 #+END_SRC
-*** Enable narrow region
+
+*** Ruby
+ #+BEGIN_SRC emacs-lisp
+(use-package rubocop
+  :ensure t)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
+(use-package enh-ruby-mode
+  :ensure t)
+(use-package inf-ruby
+  :ensure t)
+(use-package yard-mode
+  :ensure t)
+(add-hook 'ruby-mode-hook 'yard-mode)
+(add-hook 'ruby-mode-hook 'eldoc-mode)
+ #+END_SRC
+**** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
-(put 'narrow-to-region 'disabled nil)
+(fset 'byebug "require 'byebug'; byebug")
+(fset 'logger "Rails.logger.info(\"\")")
+#+END_SRC
+*** Javascript
+**** JS2 Mode
+Use JS2 Mode instead of JSX
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode
+  :ensure t)
+#+END_SRC
+**** React Snippets
+#+BEGIN_SRC emacs-lisp
+(autoload 'rjsx-mode "rjsx mode for React")
+#+END_SRC
+**** Javascript indentation
+#+BEGIN_SRC emacs-lisp
+(setq-default js-indent-level 2)
+(setq-default jsx-indent-level 2)
+#+END_SRC
+**** ElmJS
+ #+BEGIN_SRC emacs-lisp
+(use-package elm-mode
+  :ensure nil)
+ #+END_SRC
+*** Clojure
+#+BEGIN_SRC emacs-lisp
+(use-package cider
+  :ensure nil)
+(use-package clojure-mode
+  :ensure nil)
+#+END_SRC
+*** Docker
+#+BEGIN_SRC emacs-lisp
+(use-package docker
+  :ensure t
+  :bind ("C-c d" . docker))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+(use-package dockerfile-mode
+  :ensure t)
+#+END_SRC
+*** Yaml
+#+BEGIN_SRC emacs-lisp
+(use-package yaml-mode
+  :ensure t)
 #+END_SRC
 ** Magit
 Magit is so good. It really is great.
@@ -237,74 +312,6 @@ To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
 ** WIP Additional comment functionality
 #+BEGIN_SRC emacs-lisp
 (string-match "^\s*#"  (thing-at-point 'line))
-#+END_SRC
-** Configuring Programming Modes
-*** Generic
-#+BEGIN_SRC emacs-lisp
-(use-package paredit
-  :ensure t)
-(use-package flycheck
-  :ensure t)
-#+END_SRC
-**** Parentheses
-#+BEGIN_SRC emacs-lisp
-(show-paren-mode 1)
-#+END_SRC
-*** Ruby
- #+BEGIN_SRC emacs-lisp
-(use-package rubocop
-  :ensure t)
-(add-hook 'ruby-mode-hook 'rubocop-mode)
-(use-package enh-ruby-mode
-  :ensure t)
-(use-package inf-ruby
-  :ensure t)
-(use-package yard-mode
-  :ensure t)
-(add-hook 'ruby-mode-hook 'yard-mode)
-(add-hook 'ruby-mode-hook 'eldoc-mode)
- #+END_SRC
-**** Configure Ruby Macros
-#+BEGIN_SRC emacs-lisp
-(fset 'byebug "require 'byebug'; byebug")
-(fset 'logger "Rails.logger.info(\"\")")
-#+END_SRC
-*** Javascript
-**** React Snippets
-#+BEGIN_SRC emacs-lisp
-(autoload 'rjsx-mode "rjsx mode for React")
-#+END_SRC
-**** Javascript indentation
-#+BEGIN_SRC emacs-lisp
-(setq-default js-indent-level 2)
-(setq-default jsx-indent-level 2)
-#+END_SRC
-**** ElmJS
- #+BEGIN_SRC emacs-lisp
-(use-package elm-mode
-  :ensure nil)
- #+END_SRC
-*** Clojure
-#+BEGIN_SRC emacs-lisp
-(use-package cider
-  :ensure nil)
-(use-package clojure-mode
-  :ensure nil)
-#+END_SRC
-*** Docker
-#+BEGIN_SRC emacs-lisp
-(use-package docker
-  :ensure t
-  :bind ("C-c d" . docker))
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-(use-package dockerfile-mode
-  :ensure t)
-#+END_SRC
-*** Yaml
-#+BEGIN_SRC emacs-lisp
-(use-package yaml-mode
-  :ensure t)
 #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp
