@@ -208,6 +208,14 @@ A template to support consistent properties in reference documents.
                       ":Date: \n"
                       ":Genre: ")))
 #+END_SRC
+*** Emacs Lisp template
+To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-structure-template-alist
+    (list "sel" (concat "#+BEGIN_SRC emacs-lisp\n"
+                        "?\n"
+                        "#+END_SRC")))
+#+END_SRC
 *** Startup behaviour
 **** Open conf.org
 #+BEGIN_SRC emacs-lisp
