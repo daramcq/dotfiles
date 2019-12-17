@@ -102,6 +102,10 @@ This will stop Emacs adding customised settings to ~init.el~.
 (use-package flycheck
   :ensure t)
 #+END_SRC
+**** Add custom key for comment region
+#+BEGIN_SRC emacs-lisp
+(global-set-key  (kbd "C-x r c") 'comment-region)
+#+END_SRC
 **** Parentheses
 #+BEGIN_SRC emacs-lisp
 (show-paren-mode 1)
