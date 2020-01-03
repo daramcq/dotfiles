@@ -58,17 +58,12 @@
 This is taken from [[https://www.masteringemacs.org/article/find-files-faster-recent-files-package][this article]].
 #+BEGIN_SRC emacs-lisp
 (require 'recentf)
-
 ;; get rid of `find-file-read-only' and replace it with something
 ;; more useful.
 (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
-
 ;; enable recent files mode.
 (recentf-mode t)
-
-; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
-
 (defun ido-recentf-open ()
   "Use `ido-completing-read' to \\[find-file] a recent file"
   (interactive)
@@ -76,10 +71,12 @@ This is taken from [[https://www.masteringemacs.org/article/find-files-faster-re
       (message "Opening file...")
     (message "Aborting")))
 #+END_SRC
-
-#+RESULTS:
-: ido-recentf-open
-
+** Ace Jump Mode
+#+BEGIN_SRC emacs-lisp
+(use-package ace-jump-mode
+  :ensure t)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+#+END_SRC
 ** Ag
 The Silver searcher!
 #+BEGIN_SRC emacs-lisp
