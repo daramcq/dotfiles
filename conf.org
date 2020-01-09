@@ -98,11 +98,12 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 (use-package react-snippets
   :ensure t)
 #+END_SRC
-** Set custom settings
-This will stop Emacs adding customised settings to ~init.el~.
-#+BEGIN_SRC emacs-lisp
-(setq custom-file (make-temp-file "emacs-custom"))
-#+END_SRC
+** Emacs Customisation
+*** Hide customised settings
+ This will stop Emacs adding customised settings to ~init.el~.
+ #+BEGIN_SRC emacs-lisp
+ (setq custom-file (make-temp-file "emacs-custom"))
+ #+END_SRC
 *** Hide start screen
  #+BEGIN_SRC emacs-lisp
  (setq inhibit-startup-screen t)
@@ -117,6 +118,11 @@ This will stop Emacs adding customised settings to ~init.el~.
    kept-old-versions 5    ; and how many of the old
    )
  #+END_SRC
+*** Kill Whole Line
+#+BEGIN_SRC emacs-lisp
+(custom-set-variables
+  '(kill-whole-line t))
+#+END_SRC
 ** Coding Style
 ** Configuring Programming Modes
 *** Generic
