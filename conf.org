@@ -231,6 +231,7 @@ The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
                              code-projects-dir
                              (concat org-projects-dir "home")
                              (concat org-projects-dir "meta")
+                             (concat org-projects-dir "misc")
                              (concat org-projects-dir "career")))
  #+END_SRC
 **** Define Org Refile targets
