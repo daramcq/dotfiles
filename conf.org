@@ -204,6 +204,11 @@ Use JS2 Mode instead of JSX
 (use-package yaml-mode
   :ensure t)
 #+END_SRC
+*** Groovy
+#+BEGIN_SRC emacs-lisp
+(use-package groovy-mode
+  :ensure t)
+#+END_SRC
 ** Magit
 Magit is so good. It really is great.
 #+BEGIN_SRC emacs-lisp
@@ -301,6 +306,16 @@ Use this for defining properties on documents.
     (list "p" (concat ":PROPERTIES:\n"
                       "?\n"
                       ":END:")))
+#+END_SRC
+*** Org-Export backends
+#+BEGIN_SRC emacs-lisp
+(use-package ox-jira
+  :ensure t)
+(use-package ox-slack
+  :ensure t)
+(require 'ox-slack)
+(use-package ox-pandoc
+  :ensure t)
 #+END_SRC
 *** References template
 A template to support consistent properties in reference documents.
