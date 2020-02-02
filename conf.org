@@ -359,9 +359,18 @@ To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
 #+END_SRC
 ** Theme
 #+BEGIN_SRC emacs-lisp
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-one t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-org-config)
+)
 (use-package afternoon-theme
   :ensure t)
-(load-theme 'afternoon t)
+;;(load-theme 'afternoon t)
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
