@@ -174,6 +174,7 @@ Use JS2 Mode instead of JSX
 (use-package js2-mode
   :ensure t)
 #+END_SRC
+**** TODO Need to configure to use automatically
 **** React Snippets
 #+BEGIN_SRC emacs-lisp
 (autoload 'rjsx-mode "rjsx mode for React")
@@ -304,6 +305,12 @@ The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
 #+BEGIN_SRC emacs-lisp
 (setq org-refile-use-outline-path t)
 #+END_SRC
+**** Add a template for work items
+#+BEGIN_SRC emacs-lisp
+  ;; (add-to-list 'org-capture-templates
+  ;;       '(("w" "Work Item" entry (file+headline (concat org-directory "/projects/career/work_items.org") "Work Items")
+  ;;          "* Work Item %?\n  %i\n  %a")))
+#+END_SRC
 *** Properties template
 Use this for defining properties on documents.
 #+BEGIN_SRC emacs-lisp
@@ -318,7 +325,6 @@ Use this for defining properties on documents.
   :ensure t)
 (use-package ox-slack
   :ensure t)
-(require 'ox-slack)
 (use-package ox-pandoc
   :ensure t)
 #+END_SRC
