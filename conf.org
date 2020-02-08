@@ -36,6 +36,9 @@
 (when (at-work)
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Fira Code 20" nil t))
+(when (at-home)
+  (set-face-attribute 'default nil :height 160)
+  (set-frame-font "Inconsolata 18" nil t))
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -389,19 +392,17 @@ To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
 (string-match "^\s*#"  (thing-at-point 'line))
 #+END_SRC
 ** Theme
+Doom-theme is pretty cool.
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
-  :ensure t
-  :config
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-)
-(use-package afternoon-theme
-  :ensure t)
-;;(load-theme 'afternoon t)
+  (use-package doom-themes
+    :ensure t
+    :config
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-one t)
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config)
+  )
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
