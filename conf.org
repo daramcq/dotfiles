@@ -152,10 +152,10 @@ I'm not a monster
 (setq indent-line-function 'insert-tab)
 #+END_SRC
 *** Ruby
+Yard and Rubocop are always useful, but Robe has some problems running with Zendesk's docker setup.
  #+BEGIN_SRC emacs-lisp
 (use-package rubocop
   :ensure t)
-(add-hook 'ruby-mode-hook 'rubocop-mode)
 (use-package enh-ruby-mode
   :ensure t)
 (use-package inf-ruby
@@ -165,7 +165,9 @@ I'm not a monster
 (use-package robe
   :ensure t)
 (add-hook 'ruby-mode-hook 'yard-mode)
-(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
+(when (at-home)
+  (add-hook 'ruby-mode-hook 'robe-mode))
  #+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
