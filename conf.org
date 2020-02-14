@@ -35,7 +35,7 @@
 #+BEGIN_SRC emacs-lisp
 (when (at-work)
   (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Fira Code 20" nil t))
+  (set-frame-font "Inconsolata 22" nil t))
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Inconsolata 18" nil t))
