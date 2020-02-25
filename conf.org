@@ -228,6 +228,11 @@ Use ~prolog-mode~ for ~.pl~ files.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 #+END_SRC
+*** Protobuf
+#+BEGIN_SRC emacs-lisp
+(use-package protobuf-mode
+  :ensure t)
+#+END_SRC
 ** Magit
 Magit is so good. It really is great.
 #+BEGIN_SRC emacs-lisp
@@ -331,15 +336,6 @@ Use this for defining properties on documents.
     (list "p" (concat ":PROPERTIES:\n"
                       "?\n"
                       ":END:")))
-#+END_SRC
-*** Org-Export backends
-#+BEGIN_SRC emacs-lisp
-(use-package ox-jira
-  :ensure t)
-(use-package ox-slack
-  :ensure t)
-(use-package ox-pandoc
-  :ensure t)
 #+END_SRC
 *** References template
 A template to support consistent properties in reference documents.
