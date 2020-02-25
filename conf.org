@@ -35,7 +35,7 @@
 #+BEGIN_SRC emacs-lisp
 (when (at-work)
   (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Inconsolata 22" nil t))
+  (set-frame-font "Fira Code 20" nil t))
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Inconsolata 18" nil t))
@@ -152,10 +152,10 @@ I'm not a monster
 (setq indent-line-function 'insert-tab)
 #+END_SRC
 *** Ruby
-Yard and Rubocop are always useful, but Robe has some problems running with Zendesk's docker setup.
  #+BEGIN_SRC emacs-lisp
 (use-package rubocop
   :ensure t)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
 (use-package enh-ruby-mode
   :ensure t)
 (use-package inf-ruby
@@ -165,9 +165,7 @@ Yard and Rubocop are always useful, but Robe has some problems running with Zend
 (use-package robe
   :ensure t)
 (add-hook 'ruby-mode-hook 'yard-mode)
-(add-hook 'ruby-mode-hook 'rubocop-mode)
-(when (at-home)
-  (add-hook 'ruby-mode-hook 'robe-mode))
+(add-hook 'ruby-mode-hook 'robe-mode)
  #+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
@@ -228,10 +226,12 @@ Use ~prolog-mode~ for ~.pl~ files.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 #+END_SRC
-*** Protobuf
+*** SQL
+SQL mode is a little underpowered, but will stick with it until I find something better.
 #+BEGIN_SRC emacs-lisp
-(use-package protobuf-mode
-  :ensure t)
+(add-hook 'sql-interactive-mode-hook 
+  (lambda ()
+    (setq truncate-lines t)))
 #+END_SRC
 ** Magit
 Magit is so good. It really is great.
@@ -336,6 +336,15 @@ Use this for defining properties on documents.
     (list "p" (concat ":PROPERTIES:\n"
                       "?\n"
                       ":END:")))
+#+END_SRC
+*** Org-Export backends
+#+BEGIN_SRC emacs-lisp
+(use-package ox-jira
+  :ensure t)
+(use-package ox-slack
+  :ensure t)
+(use-package ox-pandoc
+  :ensure t)
 #+END_SRC
 *** References template
 A template to support consistent properties in reference documents.
