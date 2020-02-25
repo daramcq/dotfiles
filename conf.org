@@ -233,6 +233,9 @@ SQL mode is a little underpowered, but will stick with it until I find something
   (lambda ()
     (setq truncate-lines t)))
 #+END_SRC
+**** Some alternatives to SQL Mode
+- [[https://github.com/kiwanami/emacs-edbi][Emacs EDBI]] (not maintained, looks deprecated)
+- [[https://github.com/kostafey/ejc-sql][ejc-sql]] (looks like it is more active)
 ** Magit
 Magit is so good. It really is great.
 #+BEGIN_SRC emacs-lisp
