@@ -38,7 +38,7 @@
   (set-frame-font "Fira Code 20" nil t))
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Inconsolata 18" nil t))
+  (set-frame-font "Inconsolata 16" nil t))
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -125,6 +125,14 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables
   '(kill-whole-line t))
+#+END_SRC
+** Executable Shortcuts
+#+BEGIN_SRC emacs-lisp
+(defun execute-current-file ()
+  (interactive)
+  (executable-interpret (buffer-file-name)
+))
+(global-set-key (kbd "C-x C-i") 'execute-current-file)
 #+END_SRC
 ** Configuring Programming Modes
 *** Generic
