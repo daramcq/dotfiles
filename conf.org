@@ -38,7 +38,7 @@
   (set-frame-font "Fira Code 20" nil t))
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Inconsolata 16" nil t))
+  (set-frame-font "Inconsolata 14" nil t))
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -125,6 +125,11 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables
   '(kill-whole-line t))
+#+END_SRC
+*** Zap Up to Char
+Bind ~M-z~ to ~zap-up-to-char~ instead of ~zap-to-char~.
+#+BEGIN_SRC emacs-lisp
+(global-set-key "\M-z" 'zap-up-to-char)
 #+END_SRC
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
