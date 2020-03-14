@@ -87,7 +87,7 @@ The Silver searcher!
   :ensure t)
 #+END_SRC
 ** Snippets
-Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functionality. Actual snippets provided by [[https://github.com/AndreaCrotti/yasnippet-snippets][YaSnippets-Snippets]].
+Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functionality. Use the snippets from [[https://github.com/AndreaCrotti/yasnippet-snippets][YaSnippets-Snippets]] and some custom ones, currently just for ruby testing.
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
   :ensure t
@@ -95,13 +95,14 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 (use-package yasnippet-snippets
   :ensure t)
 (yas-global-mode 1))
+(yas-load-directory "~/dotfiles/snippets/")
 #+END_SRC
 *** React-Snippets
 #+BEGIN_SRC emacs-lisp
 (use-package react-snippets
   :ensure t)
 #+END_SRC
-** Emacs Customisation
+** Customise Emacs
 *** Hide customised settings
  This will stop Emacs adding customised settings to ~init.el~.
  #+BEGIN_SRC emacs-lisp
