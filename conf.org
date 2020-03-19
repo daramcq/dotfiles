@@ -102,15 +102,11 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 (use-package react-snippets
   :ensure t)
 #+END_SRC
-** Customise Emacs
+** Customise Emacs Settings
 *** Hide customised settings
  This will stop Emacs adding customised settings to ~init.el~.
  #+BEGIN_SRC emacs-lisp
  (setq custom-file (make-temp-file "emacs-custom"))
- #+END_SRC
-*** Hide start screen
- #+BEGIN_SRC emacs-lisp
- (setq inhibit-startup-screen t)
  #+END_SRC
 *** Hide Backup files
  #+BEGIN_SRC emacs-lisp
@@ -122,6 +118,11 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
    kept-old-versions 5    ; and how many of the old
    )
  #+END_SRC
+*** Hide start screen
+ #+BEGIN_SRC emacs-lisp
+ (setq inhibit-startup-screen t)
+ #+END_SRC
+** Text Editing Features
 *** Kill Whole Line
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables
@@ -137,6 +138,23 @@ This is handy.
 #+BEGIN_SRC emacs-lis
 (delete-selection-mode 1)
 #+END_SRC
+*** Expand Region
+So this is really great
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :ensure t)
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+#+END_SRC
+*N.B.* Need to see why contract fast key is not working as expected.
+*** Drag Stuff
+But combining it with drag stuff should make text movement very easy.
+#+BEGIN_SRC emacs-lisp
+(use-package drag-stuff
+  :ensure t)
+(drag-stuff-global-mode 1)
+#+END_SRC
+*N.B.* Need to confirm that drag-stuff does not behave differently to org-mode's corresponding command.
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
 (defun execute-current-file ()
