@@ -181,10 +181,7 @@ I'm not a monster
   :ensure t)
 (use-package yard-mode
   :ensure t)
-(use-package robe
-  :ensure t)
 (add-hook 'ruby-mode-hook 'yard-mode)
-(add-hook 'ruby-mode-hook 'robe-mode)
  #+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
