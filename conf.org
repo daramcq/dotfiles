@@ -132,6 +132,11 @@ Bind ~M-z~ to ~zap-up-to-char~ instead of ~zap-to-char~.
 #+BEGIN_SRC emacs-lisp
 (global-set-key "\M-z" 'zap-up-to-char)
 #+END_SRC
+*** Paste over
+This is handy.
+#+BEGIN_SRC emacs-lis
+(delete-selection-mode 1)
+#+END_SRC
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
 (defun execute-current-file ()
