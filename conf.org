@@ -153,6 +153,7 @@ But combining it with drag stuff should make text movement very easy.
 (use-package drag-stuff
   :ensure t)
 (drag-stuff-global-mode 1)
+(drag-stuff-define-keys)
 #+END_SRC
 *N.B.* Need to confirm that drag-stuff does not behave differently to org-mode's corresponding command.
 ** Executable Shortcuts
