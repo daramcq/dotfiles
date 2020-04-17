@@ -148,14 +148,14 @@ So this is really great
 #+END_SRC
 *N.B.* Need to see why contract fast key is not working as expected.
 *** Drag Stuff
-But combining it with drag stuff should make text movement very easy.
+Drag Stuff makes it easy to move text around. It gives us a handy way to disable it for org-mode and preserve existing functionality.
 #+BEGIN_SRC emacs-lisp
 (use-package drag-stuff
   :ensure t)
 (drag-stuff-global-mode 1)
+(add-to-list 'drag-stuff-except-modes 'org-mode)
 (drag-stuff-define-keys)
 #+END_SRC
-*N.B.* Need to confirm that drag-stuff does not behave differently to org-mode's corresponding command.
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
 (defun execute-current-file ()
