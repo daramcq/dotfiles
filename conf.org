@@ -414,9 +414,19 @@ To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
                         "?\n"
                         "#+END_SRC")))
 #+END_SRC
+*** TOC Snippet
+I usually want this to be disabled, so a snippet can speed this up.
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'org-structure-template-alist
     (list "toc" "#+OPTIONS: toc:?"))
+#+END_SRC
+*** Ruby Snippet
+Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet shortcut will save a little time.
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-structure-template-alist
+    (list "sr" (concat "#+BEGIN_SRC ruby\n"
+                        "?\n"
+                        "#+END_SRC")))
 #+END_SRC
 *** Org-Export backends
 #+BEGIN_SRC emacs-lisp
