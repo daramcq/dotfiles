@@ -284,11 +284,14 @@ SQL mode is a little underpowered, but will stick with it until I find something
 - [[https://github.com/kiwanami/emacs-edbi][Emacs EDBI]] (not maintained, looks deprecated)
 - [[https://github.com/kostafey/ejc-sql][ejc-sql]] (looks like it is more active)
 ** Magit
-Magit is so good. It really is great.
+Magit is so good. It really is great. Forge for GitHub interaction.
 #+BEGIN_SRC emacs-lisp
 (use-package magit
   :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
+(use-package forge
+  :ensure t
+  :after magit)
 #+END_SRC
 ** Org-Mode
 The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
