@@ -156,6 +156,11 @@ Drag Stuff makes it easy to move text around. It gives us a handy way to disable
 (add-to-list 'drag-stuff-except-modes 'org-mode)
 (drag-stuff-define-keys)
 #+END_SRC
+** Dired
+Use dired-x for the handy jump-to functionality.
+#+BEGIN_SRC emacs-lisp
+(use-package dired-x)
+#+END_SRC
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
 (defun execute-current-file ()
