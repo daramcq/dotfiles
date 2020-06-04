@@ -38,7 +38,7 @@
   (set-frame-font "Inconsolata 18" nil t))
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Inconsolata 14" nil t))
+  (set-frame-font "Ubuntu Mono 16" nil t))
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
