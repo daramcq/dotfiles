@@ -288,6 +288,14 @@ SQL mode is a little underpowered, but will stick with it until I find something
 **** Some alternatives to SQL Mode
 - [[https://github.com/kiwanami/emacs-edbi][Emacs EDBI]] (not maintained, looks deprecated)
 - [[https://github.com/kostafey/ejc-sql][ejc-sql]] (looks like it is more active)
+** Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+#+END_SRC
 ** Magit
 Magit is so good. It really is great. Forge for GitHub interaction.
 #+BEGIN_SRC emacs-lisp
@@ -467,6 +475,35 @@ Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet
 ** WIP Additional comment functionality
 #+BEGIN_SRC emacs-lisp
 (string-match "^\s*#"  (thing-at-point 'line))
+#+END_SRC
+** Local development
+Run all the voice containers in development mode
+#+BEGIN_SRC emacs-lisp
+(defun create-terminal-buffer(bufname)
+  ;;; Create a named terminal buffer
+  (interactive)
+  (term "/bin/bash")
+  (rename-buffer bufname))
+
+(defun create-named-term-processes (buffer-list)
+  ;;; Create multiple named terminal processes
+  (interactive)
+  (loop for bufname in buffer-list
+        do
+        (create-terminal-buffer bufname)
+        (term-send-string
+         (get-buffer-process bufname)
+         (format "zdi %s restart -d\r" bufname))))
+
+(defun voice-run-all()
+  ;;; Run all the voice containers in development mode
+  (interactive)
+  (create-named-term-processes '("voice" "voice_resque" "voice_resque_low" "voice_consumers")))
+
+(defun voice-run-light()
+  ;;; Run all the voice containers in development mode
+  (interactive)
+  (create-named-term-processes '("voice" "voice_resque")))
 #+END_SRC
 ** Theme
 Doom-theme is pretty cool.
