@@ -23,6 +23,14 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 #+END_SRC
+** Multi-Term
+Adding multi-term to support ZSH integration:
+#+BEGIN_SRC emacs-lisp
+(use-package multi-term
+  :ensure t)
+(when (at-work)
+  (setq multi-term-program "/bin/zsh"))
+#+END_SRC
 ** Set work and home checks
 #+BEGIN_SRC emacs-lisp
 (defun at-work()
