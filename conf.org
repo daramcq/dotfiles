@@ -9,6 +9,14 @@
 #+BEGIN_SRC emacs-lisp
 (setq debug-on-error t)
 #+END_SRC
+** Set work and home checks
+#+BEGIN_SRC emacs-lisp
+(defun at-work()
+  (string-equal system-type "darwin"))
+
+(defun at-home()
+  (string-equal system-type "gnu/linux"))
+#+END_SRC
 ** Packaging setup
 *** Core packages
  #+BEGIN_SRC emacs-lisp
@@ -23,13 +31,13 @@
   (package-install 'use-package))
 (eval-when-compile (require 'use-package))
 #+END_SRC
-** Set work and home checks
+** Multi-Term
+Adding multi-term to support ZSH integration:
 #+BEGIN_SRC emacs-lisp
-(defun at-work()
-  (string-equal system-type "darwin"))
-
-(defun at-home()
-  (string-equal system-type "gnu/linux"))
+(use-package multi-term
+  :ensure t)
+(when (at-work)
+  (setq multi-term-program "/bin/zsh"))
 #+END_SRC
 ** Font Display
 #+BEGIN_SRC emacs-lisp
@@ -461,6 +469,11 @@ Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet
 (use-package ox-pandoc
   :ensure t)
 #+END_SRC
+*** Babel
+#+BEGIN_SRC emacs-lisp
+(org-babel-do-load-languages 'org-babel-load-languages
+    '((shell . t)))
+#+END_SRC
 *** Startup behaviour
 **** Open conf.org
 #+BEGIN_SRC emacs-lisp
@@ -493,7 +506,7 @@ Run all the voice containers in development mode
 (defun create-terminal-buffer (bufname)
   ;;; Create a named terminal buffer
   (interactive)
-  (term "/bin/bash")
+  (term "/bin/zsh")
   (rename-buffer bufname))
 
 (defun run-terminal-buffer-process (bufname command)
@@ -524,8 +537,34 @@ Run all the voice containers in development mode
 (defun voice-run-light ()
   ;;; Run some of the voice containers in development mode
   (interactive)
-  (create-named-term-processes '(("voice" "zdi voice restart -d")
+  (create-named-term-processes '(("voice_srv" "zdi voice restart -d")
                                  ("voice_resque" "zdi voice_resque restart -d"))))
+
+(defun voice-shell ()
+  (interactive)
+  (create-named-term-processes '(("voice-shell" "zdi voice shell -d"))))
+
+(defun voice-console ()
+  (interactive)
+  (create-named-term-processes '(("voice-console" "zdi voice console -d"))))
+
+(defun sms-run-light ()
+  ;;; Run some of the voice containers in development mode
+  (interactive)
+  (create-named-term-processes '(("sms_srv" "zdi sms restart -d")
+                                 ("sms_resque" "zdi sms_resque restart -d"))))
+
+(defun sms-shell ()
+  (interactive)
+  (create-named-term-processes '(("sms-shell" "zdi sms shell -d"))))
+
+(defun sms-console ()
+  (interactive)
+  (create-named-term-processes '(("sms-console" "zdi sms console -d"))))
+
+(defun start-world ()
+  (interactive)
+  (create-named-term-processes '(("term" "zdi world restart"))))
 #+END_SRC
 ** Theme
 Doom-theme is pretty cool.
