@@ -59,28 +59,26 @@ Adding multi-term to support ZSH integration:
 (powerline-default-theme)
 #+END_SRC
 ** Finding Files
-*** Ido
- #+BEGIN_SRC emacs-lisp
- (setq ido-enable-flex-matching t)
- (setq ido-everywhere t)
- (ido-mode 1)
- #+END_SRC
-*** Recentf
-This is taken from [[https://www.masteringemacs.org/article/find-files-faster-recent-files-package][this article]].
+*** Helm
 #+BEGIN_SRC emacs-lisp
-(require 'recentf)
-;; get rid of `find-file-read-only' and replace it with something
-;; more useful.
-(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(use-package helm
+  :ensure t)
+(require 'helm-config)
+(setq helm-split-window-in-side-p t
+      helm-move-to-line-cycle-in-source t)
+
+(helm-mode 1)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-r") 'helm-recentf)
+(global-set-key (kbd "C-s") 'helm-occur)
+#+END_SRC
+*** Recentf
+#+BEGIN_SRC emacs-lisp
 ;; enable recent files mode.
 (recentf-mode t)
 (setq recentf-max-saved-items 50)
-(defun ido-recentf-open ()
-  "Use `ido-completing-read' to \\[find-file] a recent file"
-  (interactive)
-  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-      (message "Opening file...")
-    (message "Aborting")))
 #+END_SRC
 ** Ace Jump Mode
 #+BEGIN_SRC emacs-lisp
@@ -309,7 +307,16 @@ SQL mode is a little underpowered, but will stick with it until I find something
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (projectile-mode +1))
+(when (at-home)
+  (setq projectile-project-search-path '("~/projects/")))
+(when (at-work)
+  (setq projectile-project-search-path '("~/Code/zendesk")))
 #+END_SRC
+*** ML
+ #+BEGIN_SRC emacs-lisp
+ (use-package sml-mode
+   :ensure t)
+ #+END_SRC
 ** Magit
 Magit is so good. It really is great. Forge for GitHub interaction.
 #+BEGIN_SRC emacs-lisp
