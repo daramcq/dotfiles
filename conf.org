@@ -295,6 +295,12 @@ SQL mode is a little underpowered, but will stick with it until I find something
 **** Some alternatives to SQL Mode
 - [[https://github.com/kiwanami/emacs-edbi][Emacs EDBI]] (not maintained, looks deprecated)
 - [[https://github.com/kostafey/ejc-sql][ejc-sql]] (looks like it is more active)
+*** Scala
+#+BEGIN_SRC emacs-lisp
+(use-package scala-mode
+  :interpreter
+    ("scala" . scala-mode))
+#+END_SRC
 ** Projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
