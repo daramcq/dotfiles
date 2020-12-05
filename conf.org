@@ -182,8 +182,9 @@ Use dired-x for the handy jump-to functionality.
 (use-package paredit
   :ensure t)
 (use-package flycheck
-  :ensure t)
-(global-flycheck-mode)
+  :ensure t
+  :init
+  (global-flycheck-mode))
 (setq flycheck-highlighting-mode 'lines)
 #+END_SRC
 **** Add custom key for comment region
@@ -301,18 +302,6 @@ SQL mode is a little underpowered, but will stick with it until I find something
   :interpreter
     ("scala" . scala-mode))
 #+END_SRC
-** Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
-(when (at-home)
-  (setq projectile-project-search-path '("~/projects/")))
-(when (at-work)
-  (setq projectile-project-search-path '("~/Code/zendesk")))
-#+END_SRC
 *** ML
  #+BEGIN_SRC emacs-lisp
  (use-package sml-mode
@@ -327,6 +316,24 @@ Magit is so good. It really is great. Forge for GitHub interaction.
 (use-package forge
   :ensure t
   :after magit)
+#+END_SRC
+** Projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1))
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on)
+  (setq projectile-switch-project-action 'projectile-vc))
+
+(when (at-home)
+  (setq projectile-project-search-path '("~/projects/")))
+(when (at-work)
+  (setq projectile-project-search-path '("~/Code/zendesk")))
 #+END_SRC
 ** Org-Mode
 The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
