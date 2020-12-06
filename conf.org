@@ -338,17 +338,19 @@ Magit is so good. It really is great. Forge for GitHub interaction.
   :ensure t
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-switch-project-action 'projectile-vc)
   (projectile-mode +1))
 
-(defun switch-project-actions()
-  (projectile-vc)
-  (rvm-activate-corresponding-ruby))
+(defun after-switch-actions ()
+    "Activate correct ruby version"
+    (rvm-activate-corresponding-ruby))
+
+(add-hook 'projectile-after-switch-project-hook 'after-switch-actions)
 
 (use-package helm-projectile
   :ensure t
   :config
-  (helm-projectile-on)
-  (setq projectile-switch-project-action 'switch-project-actions))
+  (helm-projectile-on))
 ;; Switch action should call projectile-vc && then rvm-activate-corresponding-ruby
 (when (at-home)
   (setq projectile-project-search-path '("~/projects/")))
