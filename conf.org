@@ -339,7 +339,8 @@ Magit is so good. It really is great. Forge for GitHub interaction.
   :config
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
   (setq projectile-switch-project-action 'projectile-vc)
-  (projectile-mode +1))
+  (projectile-mode +1)
+  (setq projectile-completion-system 'helm))
 
 (defun after-switch-actions ()
     "Activate correct ruby version"
