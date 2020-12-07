@@ -86,6 +86,7 @@ Use variable-pitch for prose and fixed-pitch for code.
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "C-x r l") 'helm-bookmarks)
 (setq helm-move-to-line-cycle-in-source t)
+(define-key helm-map (kbd "C-z")  'helm-select-action)
 #+END_SRC
 *** Recentf
 #+BEGIN_SRC emacs-lisp
@@ -194,9 +195,38 @@ Use dired-x for the handy jump-to functionality.
 (use-package paredit
   :ensure t)
 (use-package flycheck
-  :ensure t)
-(global-flycheck-mode)
+  :ensure t
+  :init
+  (global-flycheck-mode))
 (setq flycheck-highlighting-mode 'lines)
+#+END_SRC
+Use Outline Magic and configure ruby-specific regexp.
+#+BEGIN_SRC emacs-lisp
+(use-package outline-magic
+  :ensure t)
+
+(defun ruby-outline-level ()
+  (or (and (match-string 1)
+           (or (cdr (assoc (match-string 1) outline-heading-alist))
+               (- (match-end 1) (match-beginning 1))))
+      (cdr (assoc (match-string 0) outline-heading-alist))
+      (- (match-end 0) (match-beginning 0))))
+
+(let ((map outline-minor-mode-map))
+  (define-key map (kbd "M-o M-o") 'outline-cycle))
+
+(defun overwrite-outline-vars()
+  "Overwrite outline mode variables to recognise ruby syntax" 
+  (set (make-local-variable 'outline-level) 'ruby-outline-level)
+  (set (make-local-variable 'outline-regexp)
+     (rx (group (* " "))
+         bow
+         (or "begin" "case" "class" "def" "else" "elsif" "end"
+             "ensure" "if" "module" "rescue" "when" "unless")
+         eow)))
+
+(add-hook 'prog-mode-hook 'outline-minor-mode)
+(add-hook 'prog-mode-hook 'hs-minor-mode)
 #+END_SRC
 **** Add custom key for comment region
 #+BEGIN_SRC emacs-lisp
@@ -217,15 +247,35 @@ I'm not a monster
  #+BEGIN_SRC emacs-lisp
 (use-package rubocop
   :ensure t)
-(add-hook 'ruby-mode-hook 'rubocop-mode)
+(add-hook 'enh-ruby-mode-hook 'rubocop-mode)
 (use-package enh-ruby-mode
   :ensure t)
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
 (use-package inf-ruby
-  :ensure t)
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c r r") 'inf-ruby))
+(use-package rvm
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c r a") 'rvm-activate-corresponding-ruby))
+
 (use-package yard-mode
   :ensure t)
-(add-hook 'ruby-mode-hook 'yard-mode)
+(add-hook 'enh-ruby-mode-hook 'yard-mode)
+
+;; Overwrite the outline variables to recognise Ruby syntax.
+(add-hook 'enh-ruby-mode-hook 'overwrite-outline-vars)
  #+END_SRC
+*** Projectile Rails
+#+BEGIN_SRC emacs-lisp
+(use-package projectile-rails
+  :ensure t
+  :config
+    (projectile-rails-global-mode)
+    (define-key projectile-rails-mode-map
+      (kbd "C-x r") 'projectile-rails-command-map))
+#+END_SRC
 **** Configure Ruby Macros
 #+BEGIN_SRC emacs-lisp
 (fset 'byebug "require 'byebug'; byebug")
@@ -313,18 +363,6 @@ SQL mode is a little underpowered, but will stick with it until I find something
   :interpreter
     ("scala" . scala-mode))
 #+END_SRC
-** Projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1))
-(when (at-home)
-  (setq projectile-project-search-path '("~/projects/")))
-(when (at-work)
-  (setq projectile-project-search-path '("~/Code/zendesk")))
-#+END_SRC
 *** ML
  #+BEGIN_SRC emacs-lisp
  (use-package sml-mode
@@ -340,8 +378,34 @@ Magit is so good. It really is great. Forge for GitHub interaction.
   :ensure t
   :after magit)
 #+END_SRC
+** Projectile
+Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. The search path differs between home and work.
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :ensure t
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-switch-project-action 'projectile-vc)
+  (projectile-mode +1)
+  (setq projectile-completion-system 'helm))
+
+(defun after-switch-actions ()
+    "Activate correct ruby version"
+    (rvm-activate-corresponding-ruby))
+
+(add-hook 'projectile-after-switch-project-hook 'after-switch-actions)
+
+(use-package helm-projectile
+  :ensure t
+  :config
+  (helm-projectile-on))
+;; Switch action should call projectile-vc && then rvm-activate-corresponding-ruby
+(when (at-home)
+  (setq projectile-project-search-path '("~/projects/")))
+(when (at-work)
+  (setq projectile-project-search-path '("~/Code/zendesk/")))
+#+END_SRC
 ** Org-Mode
-The greatest thing about Emacs. Well, maybe that's Magit. Second greatest?
 *** Basic setup
  #+BEGIN_SRC emacs-lisp
 (use-package org-alert
