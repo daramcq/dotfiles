@@ -40,6 +40,7 @@ Adding multi-term to support ZSH integration:
   (setq multi-term-program "/bin/zsh"))
 #+END_SRC
 ** Font Display
+*** Basic work/home distinction
 #+BEGIN_SRC emacs-lisp
 (when (at-work)
   (set-face-attribute 'default nil :height 160)
@@ -47,6 +48,16 @@ Adding multi-term to support ZSH integration:
 (when (at-home)
   (set-face-attribute 'default nil :height 160)
   (set-frame-font "Ubuntu Mono 16" nil t))
+#+END_SRC
+*** Org-mode customisation
+Use variable-pitch for prose and fixed-pitch for code.
+#+BEGIN_SRC emacs-lisp
+(use-package org-variable-pitch
+  :ensure t)
+(set-face-attribute 'default nil :font "Inconsolata 18")
+(set-face-attribute 'fixed-pitch nil :font "Inconsolata 18")
+(set-face-attribute 'variable-pitch nil :font "Geneva 16")
+(add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -73,6 +84,8 @@ Adding multi-term to support ZSH integration:
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
 (global-set-key (kbd "C-s") 'helm-occur)
+(global-set-key (kbd "C-x r l") 'helm-bookmarks)
+(setq helm-move-to-line-cycle-in-source t)
 #+END_SRC
 *** Recentf
 #+BEGIN_SRC emacs-lisp
