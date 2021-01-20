@@ -548,9 +548,12 @@ Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet
   :ensure t)
 (use-package ox-slack
   :ensure t)
-(require 'ox-slack)
 (use-package ox-pandoc
   :ensure t)
+(use-package ox-html)
+(use-package ox-reveal
+  :ensure t)
+(setq Org-Reveal-title-slide nil)
 #+END_SRC
 *** Babel
 #+BEGIN_SRC emacs-lisp
