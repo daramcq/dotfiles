@@ -230,7 +230,7 @@ Use Outline Magic and configure ruby-specific regexp.
 #+END_SRC
 **** Add custom key for comment region
 #+BEGIN_SRC emacs-lisp
-(global-set-key  (kbd "C-x r c") 'comment-region)
+(global-set-key  (kbd "C-x r c") 'comment-or-uncomment-region)
 #+END_SRC
 **** Parentheses
 #+BEGIN_SRC emacs-lisp
