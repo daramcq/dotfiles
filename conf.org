@@ -70,6 +70,14 @@ Use variable-pitch for prose and fixed-pitch for code.
 (powerline-default-theme)
 #+END_SRC
 ** Finding Files
+*** Copy Buffer name to Kill Ring
+#+BEGIN_SRC emacs-lisp
+(defun copy-buffer-name ()
+  (interactive)
+  (kill-new (buffer-file-name)))
+
+(global-set-key (kbd "C-c f") 'copy-buffer-name)
+#+END_SRC
 *** Helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
