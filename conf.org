@@ -705,8 +705,11 @@ Run all the voice containers in development mode
   (defun bind-command (command)
     (define-key my-keymap (key-binding-key command) (key-binding-func command)))
 
+  ;;(defalias bind-command-keymap (apply-partially 'bind-command my-keymap))
+
+  
   (let ((my-keymap (make-sparse-keymap (keymap-obj-prompt my-keymap-obj))))
-  (map 'list 'bind-command (keymap-obj-key-bindings my-keymap-obj))
+    (map 'list 'bind-command (keymap-obj-key-bindings my-keymap-obj))
     (global-set-key (kbd "C-z") my-keymap))
   
   ;;(map 'list  (lambda (s) (message (car s))) (list my-seemap))
