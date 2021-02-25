@@ -246,7 +246,7 @@ Use Outline Magic and configure ruby-specific regexp.
 #+END_SRC
 **** Add custom key for comment region
 #+BEGIN_SRC emacs-lisp
-(global-set-key  (kbd "C-x r c") 'comment-region)
+(global-set-key  (kbd "C-x r c") 'comment-or-uncomment-region)
 #+END_SRC
 **** Parentheses
 #+BEGIN_SRC emacs-lisp
@@ -683,6 +683,22 @@ Run all the voice containers in development mode
 (defun start-world ()
   (interactive)
   (create-named-term-processes '(("term" "zdi world restart"))))
+#+END_SRC
+*** Putzing about with keymaps
+#+BEGIN_SRC emacs-lisp
+(defun add-keys (keymap)
+  (interactive)
+  (define-key keymap "a" (lambda () (interactive) (message "And then A")))
+  (define-key keymap "b" (lambda () (interactive) (message "And then B"))))
+
+(let ((message-map (make-sparse-keymap "Message Map")))
+  (let ((a-nested-message-map (make-sparse-keymap "You pressed A"))
+        (b-nested-message-map (make-sparse-keymap "You pressed B")))
+    (define-key message-map "a" a-nested-message-map)
+    (define-key message-map "b" b-nested-message-map)
+    (when (keymapp a-nested-message-map) (message "Yes it is a message map"))
+    (map 'list 'add-keys (list a-nested-message-map b-nested-message-map)))
+  (global-set-key (kbd "C-z") message-map))
 #+END_SRC
 ** Theme
 Doom-theme is pretty cool.
