@@ -52,12 +52,21 @@ Adding multi-term to support ZSH integration:
 *** Org-mode customisation
 Use variable-pitch for prose and fixed-pitch for code.
 #+BEGIN_SRC emacs-lisp
-(use-package org-variable-pitch
-  :ensure t)
-(set-face-attribute 'default nil :font "Inconsolata 18")
-(set-face-attribute 'fixed-pitch nil :font "Inconsolata 18")
-(set-face-attribute 'variable-pitch nil :font "Geneva 16")
-(add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
+    (use-package org-variable-pitch
+      :ensure t)
+    (set-face-attribute 'variable-pitch nil :font "ETBembo 18")
+    (add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
+
+  (custom-theme-set-faces 'user
+                          `(org-level-1
+                            ((t (:height 1.75
+                                 :weight bold))))
+                          `(org-level-2
+                            ((t (:height 1.5
+                                 :slant italic))))
+                          `(org-level-3 ((t (:height 1.25))))
+                          `(org-level-4 ((t (:height 1.1)))))
+
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -731,7 +740,7 @@ Doom-theme is pretty cool.
     :config
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-nord t)
+    (load-theme 'doom-spacegrey t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config)
   )
