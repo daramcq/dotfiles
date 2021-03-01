@@ -482,6 +482,26 @@ Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. T
 			   org-file-list) ; add files found to result
 	   (add-to-list 'org-file-list org-file)))))))
   #+END_SRC
+*** Display
+***** Margins 
+ #+BEGIN_SRC emacs-lisp
+   (defun org-mode--custom-display()
+     (interactive)
+     (setq header-line-format " ")  ;; Top padding
+     (setq left-margin-width 2
+           right-margin-width 2
+           line-spacing 0.1)
+     (set-window-buffer nil (current-buffer)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+        (setq org-bullets-bullet-list '(" ")
+              org-pretty-entities t
+              org-hide-emphasis-markers t
+              org-fontify-quote-and-verse-blocks t
+              org-fontify-whole-heading-line t)
+        (add-hook 'org-mode-hook 'org-bullets-mode)
+ #+END_SRC
 *** Log done time
 #+BEGIN_SRC emacs-lisp
 (setq-default org-log-done (quote time))
