@@ -85,7 +85,15 @@ Use variable-pitch for prose and fixed-pitch for code.
   (interactive)
   (kill-new (buffer-file-name)))
 
-(global-set-key (kbd "C-c f") 'copy-buffer-name)
+(defun project-relative-filename ()
+  (interactive)
+  (nth 1 (split-string (buffer-file-name) (projectile-project-root))))
+
+(defun copy-project-relative-filename ()
+  (interactive)
+  (kill-new (project-relative-filename))
+  (message (format "Copied %s" (project-relative-filename))))
+(global-set-key (kbd "C-c f") 'copy-project-relative-filename)
 #+END_SRC
 *** Helm
 #+BEGIN_SRC emacs-lisp
@@ -620,6 +628,22 @@ Run all the voice containers in development mode
               (bufcommand (car (cdr tuple))))
         (create-terminal-buffer bufname)
         (run-terminal-buffer-process bufname bufcommand))))
+
+(defun classic-run ()
+  ;; Run Classic in development mode
+  (interactive)
+  (create-named-term-processes '(("classic-srv" "zdi classic restart -d"))))
+
+(defun classic-shell ()
+  ;; Run Classic shell
+  (interactive)
+  (create-named-term-processes '(("classic-shell" "zdi classic shell -d"))))
+
+(defun classic-console ()
+  ;; Run Classic console
+  (interactive)
+  (create-named-term-processes '(("classic-console" "zdi classic console -d"))))
+
 
 (defun voice-run-all ()
   ;;; Run all the voice containers in development mode
