@@ -2,7 +2,7 @@
 ** Package cruft
 #+BEGIN_SRC emacs-lisp
 ;;; package --- Summary
-;;; Commentary: This is my Emacs configuration, it's a literate programming job
+;;; Commentary: Emacs configuration, using org for readability.
 ;;; My Emacs init file
 #+END_SRC
 ** Debug behaviour
@@ -609,14 +609,6 @@ Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet
 **** Open conf.org
 #+BEGIN_SRC emacs-lisp
 (find-file "~/dotfiles/conf.org")
-#+END_SRC
-**** Open todo
-#+BEGIN_SRC emacs-lisp
-(find-file (concat org-directory "/todo.org"))
-#+END_SRC
-**** Open capture notes
-#+BEGIN_SRC emacs-lisp
-(find-file org-default-notes-file)
 #+END_SRC
 ** Thing at Point
 #+BEGIN_SRC emacs-lisp
