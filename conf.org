@@ -769,8 +769,15 @@ Doom-theme is pretty cool.
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
     (load-theme 'doom-spacegrey t)
     (doom-themes-visual-bell-config)
-    (doom-themes-org-config)
-  )
+    (doom-themes-org-config))
+
+  (use-package solarized-theme
+    :ensure t)
+
+  (defun toggle-theme ()
+    (interactive)
+    (disable-theme 'doom-spacegrey)
+    (load-theme 'solarized-light t))
 #+END_SRC
 ** Provide Init
 #+BEGIN_SRC emacs-lisp
