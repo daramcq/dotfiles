@@ -1,4 +1,4 @@
-* Emacs Configuration file
+ Emacs Configuration file
 ** Package cruft
 #+BEGIN_SRC emacs-lisp
 ;;; package --- Summary
@@ -20,16 +20,22 @@
 ** Packaging setup
 *** Core packages
  #+BEGIN_SRC emacs-lisp
-(require 'package)
-(add-to-list 'package-archives
-  '("melpa" . "https://melpa.org/packages/"))
-(package-initialize)
+      (require 'package)
+      (add-to-list 'package-archives
+        '("melpa" . "https://melpa.org/packages/"))
+      (package-initialize)
+   
  #+END_SRC
 #+BEGIN_SRC emacs-lisp
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile (require 'use-package))
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+    (eval-when-compile (require 'use-package))
+    (use-package exec-path-from-shell
+      :ensure t)
+    (when (memq window-system '(mac ns x))
+       (exec-path-from-shell-initialize))
+  
 #+END_SRC
 ** Multi-Term
 Adding multi-term to support ZSH integration:
@@ -42,31 +48,47 @@ Adding multi-term to support ZSH integration:
 ** Font Display
 *** Basic work/home distinction
 #+BEGIN_SRC emacs-lisp
-(when (at-work)
-  (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Inconsolata 18" nil t))
-(when (at-home)
-  (set-face-attribute 'default nil :height 160)
-  (set-frame-font "Ubuntu Mono 16" nil t))
+  (when (at-work)
+    (set-face-attribute 'default nil :height 160)
+    (set-frame-font "Monaco 16" nil t))
+  (when (at-home)
+    (set-face-attribute 'default nil :height 160)
+    (set-frame-font "Ubuntu Mono 16" nil t))
 #+END_SRC
+*** Mermaid
+#+BEGIN_SRC emacs-lisp
+;;(setq mermaid-mmdc-location "~/.nvm/versions/node/v22.9.0/lib/node_modules/@mermaid-js/mermaid-cli/src/cli.js")
+#+END_SRC
+*** COMMENT ChatGPT
+#+BEGIN_SRC emacs-lisp
+  (use-package gptel
+    :config
+    (setq gptel-model "gpt-4o")
+    (setq gptel-backend (gptel-make-openai "ZendeskChatGPT"
+                          :host "ai-gateway.zende.sk"
+                          :key "TVXFetb5LIIWwoRKxBUkhkErsqa"
+                          :models '("gpt-4o"))))
+
+(add-to-list 'gptel-directives '(threatmodelling . "You are responsible for converting textual information on cybersecurity threats into attack trees, represented by valid Mermaid JS diagrams.\
+You will use the below paradigm for your output.\
+Components:\
+- A top level goal (or 'threat') should be a rectangular box, shaded light red.\
+- A substep should be a rectangular box, shaded blue with a blue border.\
+- Countermeasures should be hexagons. A hexagon node is denoted with double curly braces, i.e. {{my hexagon}}.\
+- Countermeasures can be either preventive or detective. Preventive countermeasures will use language such as 'prevent', 'block', 'stop'. Detective countermeasures will use language such as 'detect', 'alert', 'log', 'audit'.\
+Relations:\
+- To indicate a choice of options, put a diamond shaped node with the text 'EITHER' between the parent goal and the optional paths.\
+- To indicate complementary steps, put a circular node with the text 'AND' between the parent goal and the complementary steps. A circular node is denoted with double parentheses, i.e. ((my circle)).\
+- Position countermeasures above the substeps they are mitigating.\
+Additional styling:\
+- Preventive countermeasures should be coloured light green.\
+- Detective countermeasures should be coloured light yellow."))
+#+END_SRC                        
 *** Org-mode customisation
 Use variable-pitch for prose and fixed-pitch for code.
 #+BEGIN_SRC emacs-lisp
-    (use-package org-variable-pitch
-      :ensure t)
-    (set-face-attribute 'variable-pitch nil :font "ETBembo 18")
-    (add-hook 'org-mode-hook 'org-variable-pitch-minor-mode)
-
-  (custom-theme-set-faces 'user
-                          `(org-level-1
-                            ((t (:height 1.75
-                                 :weight bold))))
-                          `(org-level-2
-                            ((t (:height 1.5
-                                 :slant italic))))
-                          `(org-level-3 ((t (:height 1.25))))
-                          `(org-level-4 ((t (:height 1.1)))))
-
+  (setq org-agenda-files '("~/org/"))
+(setq org-default-notes-file (concat org-directory "/daily.org"))
 #+END_SRC
 ** Enable narrow region
 #+BEGIN_SRC emacs-lisp
@@ -99,7 +121,6 @@ Use variable-pitch for prose and fixed-pitch for code.
 #+BEGIN_SRC emacs-lisp
 (use-package helm
   :ensure t)
-(require 'helm-config)
 (setq helm-split-window-in-side-p t
       helm-move-to-line-cycle-in-source t)
 
@@ -108,7 +129,7 @@ Use variable-pitch for prose and fixed-pitch for code.
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x C-r") 'helm-recentf)
-(global-set-key (kbd "C-s") 'helm-occur)
+;;(global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "C-x r l") 'helm-bookmarks)
 (setq helm-move-to-line-cycle-in-source t)
 (define-key helm-map (kbd "C-z")  'helm-select-action)
@@ -125,12 +146,6 @@ Use variable-pitch for prose and fixed-pitch for code.
   :ensure t)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 #+END_SRC
-** Ag
-The Silver searcher!
-#+BEGIN_SRC emacs-lisp
-(use-package ag
-  :ensure t)
-#+END_SRC
 ** Snippets
 Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functionality. Use the snippets from [[https://github.com/AndreaCrotti/yasnippet-snippets][YaSnippets-Snippets]] and some custom ones, currently just for ruby testing.
 #+BEGIN_SRC emacs-lisp
@@ -140,12 +155,7 @@ Use [[https://github.com/joaotavora/yasnippet][YASnippet]] for snippet functiona
 (use-package yasnippet-snippets
   :ensure t)
 (yas-global-mode 1))
-(yas-load-directory "~/dotfiles/snippets/")
-#+END_SRC
-*** React-Snippets
-#+BEGIN_SRC emacs-lisp
-(use-package react-snippets
-  :ensure t)
+;;(yas-load-directory "~/dotfiles/snippets/")
 #+END_SRC
 ** Customise Emacs Settings
 *** Hide customised settings
@@ -195,16 +205,18 @@ So this is really great
 *** Drag Stuff
 Drag Stuff makes it easy to move text around. It gives us a handy way to disable it for org-mode and preserve existing functionality.
 #+BEGIN_SRC emacs-lisp
-(use-package drag-stuff
-  :ensure t)
-(drag-stuff-global-mode 1)
-(add-to-list 'drag-stuff-except-modes 'org-mode)
-(drag-stuff-define-keys)
+;; (use-package drag-stuff
+  ;;   :ensure t)
+  ;; (drag-stuff-global-mode 1)
+  ;; (add-to-list 'drag-stuff-except-modes 'org-mode)
+  ;; (drag-stuff-define-keys)
 #+END_SRC
 ** Dired
 Use dired-x for the handy jump-to functionality.
 #+BEGIN_SRC emacs-lisp
-(use-package dired-x)
+    (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu)
+  (keymap-set isearch-mode-map "C-o" #'casual-isearch-tmenu)
+(setq list-matching-lines-default-context-lines 1)
 #+END_SRC
 ** Executable Shortcuts
 #+BEGIN_SRC emacs-lisp
@@ -227,31 +239,31 @@ Use dired-x for the handy jump-to functionality.
 #+END_SRC
 Use Outline Magic and configure ruby-specific regexp.
 #+BEGIN_SRC emacs-lisp
-(use-package outline-magic
-  :ensure t)
+  (use-package outline-magic
+    :ensure t)
 
-(defun ruby-outline-level ()
-  (or (and (match-string 1)
-           (or (cdr (assoc (match-string 1) outline-heading-alist))
-               (- (match-end 1) (match-beginning 1))))
-      (cdr (assoc (match-string 0) outline-heading-alist))
-      (- (match-end 0) (match-beginning 0))))
+  (defun ruby-outline-level ()
+    (or (and (match-string 1)
+             (or (cdr (assoc (match-string 1) outline-heading-alist))
+                 (- (match-end 1) (match-beginning 1))))
+        (cdr (assoc (match-string 0) outline-heading-alist))
+        (- (match-end 0) (match-beginning 0))))
 
-(let ((map outline-minor-mode-map))
-  (define-key map (kbd "M-o M-o") 'outline-cycle))
+  (let ((map outline-minor-mode-map))
+    (define-key map (kbd "M-o M-o") 'outline-cycle))
 
-(defun overwrite-outline-vars()
-  "Overwrite outline mode variables to recognise ruby syntax" 
-  (set (make-local-variable 'outline-level) 'ruby-outline-level)
-  (set (make-local-variable 'outline-regexp)
-     (rx (group (* " "))
-         bow
-         (or "begin" "case" "class" "def" "else" "elsif" "end"
-             "ensure" "if" "module" "rescue" "when" "unless")
-         eow)))
+  (defun overwrite-outline-vars()
+    "Overwrite outline mode variables to recognise ruby syntax" 
+    (set (make-local-variable 'outline-level) 'ruby-outline-level)
+    (set (make-local-variable 'outline-regexp)
+       (rx (group (* " "))
+           bow
+           (or "begin" "case" "class" "def" "else" "elsif" "end"
+               "ensure" "if" "module" "rescue" "when" "unless")
+           eow)))
 
-(add-hook 'prog-mode-hook 'outline-minor-mode)
-(add-hook 'prog-mode-hook 'hs-minor-mode)
+  (add-hook 'prog-mode-hook 'outline-minor-mode)
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
 #+END_SRC
 **** Add custom key for comment region
 #+BEGIN_SRC emacs-lisp
@@ -323,29 +335,10 @@ Use JS2 Mode instead of JSX
 (setq-default js-indent-level 2)
 (setq-default jsx-indent-level 2)
 #+END_SRC
-**** ElmJS
- #+BEGIN_SRC emacs-lisp
-(use-package elm-mode
-  :ensure nil)
- #+END_SRC
-**** NodeJS Repl
+*** Jsonnet
 #+BEGIN_SRC emacs-lisp
-(use-package nodejs-repl
+(use-package jsonnet-mode
   :ensure t)
-(add-hook 'js-mode-hook
-    (lambda ()
-      (define-key js-mode-map (kbd "C-x C-e") 'nodejs-repl-send-last-expression)
-      (define-key js-mode-map (kbd "C-c C-j") 'nodejs-repl-send-line)
-      (define-key js-mode-map (kbd "C-c C-r") 'nodejs-repl-send-region)
-      (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
-      (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl)))
-#+END_SRC
-*** Clojure
-#+BEGIN_SRC emacs-lisp
-(use-package cider
-  :ensure nil)
-(use-package clojure-mode
-  :ensure nil)
 #+END_SRC
 *** Docker
 #+BEGIN_SRC emacs-lisp
@@ -406,73 +399,39 @@ Magit is so good. It really is great. Forge for GitHub interaction.
 ** Projectile
 Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. The search path differs between home and work.
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-switch-project-action 'projectile-vc)
-  (projectile-mode +1)
-  (setq projectile-completion-system 'helm))
+  (use-package rg
+    :ensure t)
+    (use-package projectile
+      :ensure t
+      :config
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+      (setq projectile-switch-project-action 'projectile-vc)
+      (projectile-mode +1)
+      (setq projectile-completion-system 'helm))
 
-(defun after-switch-actions ()
-    "Activate correct ruby version"
-    (rvm-activate-corresponding-ruby))
+    (defun after-switch-actions ()
+        "Activate correct ruby version"
+        (rvm-activate-corresponding-ruby))
 
-(add-hook 'projectile-after-switch-project-hook 'after-switch-actions)
+    (add-hook 'projectile-after-switch-project-hook 'after-switch-actions)
 
-(use-package helm-projectile
-  :ensure t
-  :config
-  (helm-projectile-on))
-;; Switch action should call projectile-vc && then rvm-activate-corresponding-ruby
-(when (at-home)
-  (setq projectile-project-search-path '("~/projects/")))
-(when (at-work)
-  (setq projectile-project-search-path '("~/Code/zendesk/")))
+    (use-package helm-projectile
+      :ensure t
+      :config
+      (helm-projectile-on))
+    ;; Switch action should call projectile-vc && then rvm-activate-corresponding-ruby
+    (when (at-home)
+      (setq projectile-project-search-path '("~/projects/")))
+    (when (at-work)
+      (setq projectile-project-search-path '("~/Code/zendesk/")))
+#+END_SRC
+** GPTEL
+#+BEGIN_SRC emacs-lisp
+  (use-package gptel
+    :ensure t)
 #+END_SRC
 ** Org-Mode
 *** Basic setup
- #+BEGIN_SRC emacs-lisp
-  (use-package org-alert
-    :ensure t)
-  (use-package org-bullets
-    :ensure t)
-  (setq org-directory "~/Dropbox/org")
- #+END_SRC
-*** Org Roam
-#+BEGIN_SRC emacs-lisp
-  (use-package org-roam
-        :ensure t
-        :hook
-        (after-init . org-roam-mode)
-        :custom
-        (org-roam-directory "/home/dara/Dropbox/org/roam/")
-        (org-roam-tag-sources '(prop vanilla))
-        :bind (:map org-roam-mode-map
-                (("C-c r l" . org-roam)
-                 ("C-c r f" . org-roam-find-file)))
-        (:map org-mode-map
-            (("C-c r i" . org-roam-insert))))
-#+END_SRC
-*** Org Roam Bibtex
-#+BEGIN_SRC emacs-lisp
-    (use-package helm-bibtex
-      :ensure t)
-    (setq bibtex-completion-bibliography
-          (concat org-roam-directory "references/refs.bib" )
-          bibtex-completion-notes-path (concat org-roam-directory "references/notes/"))
-#+END_SRC
-*** Org Journal
-    #+BEGIN_SRC emacs-lisp
-                (use-package org-journal
-                  :ensure t
-                  :defer t
-                  :init
-                  (setq org-journal-prefix-key "C-c j ")
-                  :config
-                  (setq org-journal-dir (concat org-directory "/journal")
-                        org-journal-date-format "%A, %d %B %Y"))
-    #+END_SRC
 *** Display
 ***** Margins 
  #+BEGIN_SRC emacs-lisp
@@ -491,7 +450,7 @@ Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. T
               org-hide-emphasis-markers t
               org-fontify-quote-and-verse-blocks t
               org-fontify-whole-heading-line t)
-        (add-hook 'org-mode-hook 'org-bullets-mode)
+        ;;(add-hook 'org-mode-hook 'org-bullets-mode)
  #+END_SRC
 *** Log done time
 #+BEGIN_SRC emacs-lisp
@@ -500,6 +459,9 @@ Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. T
 *** Define Agenda key
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda)
+(add-hook 'org-agenda-finalize-hook
+      (lambda () (remove-text-properties
+         (point-min) (point-max) '(mouse-face t)))) 
 #+END_SRC
 *** Define store-link shortcut
 #+BEGIN_SRC emacs-lisp
@@ -516,12 +478,12 @@ Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. T
 #+END_SRC
 *** Set up org-capture
 #+BEGIN_SRC emacs-lisp
-(setq org-default-notes-file (concat org-directory "/notes.org"))
-(global-set-key (kbd "C-c c") 'org-capture)
+;;(setq org-default-notes-file (concat org-directory "/notes.org"))
+;;(global-set-key (kbd "C-c c") 'org-capture)
 #+END_SRC
 **** Use outline path for refiling
 #+BEGIN_SRC emacs-lisp
-(setq org-refile-use-outline-path t)
+;;(setq org-refile-use-outline-path t)
 #+END_SRC
 **** Add a template for work items
 #+BEGIN_SRC emacs-lisp
@@ -532,19 +494,17 @@ Set up projectile with the ~C-c p~ prefix. Helm will be the completion system. T
 *** Properties template
 Use this for defining properties on documents.
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'org-structure-template-alist
-    (list "p" (concat ":PROPERTIES:\n"
-                      "?\n"
-                      ":END:")))
+  ;; (add-to-list 'org-structure-template-alist
+  ;;     (list "p" (concat ":PROPERTIES:\n"
+  ;;                       "?\n"
+  ;;                       ":END:")))
 #+END_SRC
 *** Org-Export backends
 #+BEGIN_SRC emacs-lisp
-(use-package ox-jira
-  :ensure t)
-(use-package ox-slack
-  :ensure t)
-(use-package ox-pandoc
-  :ensure t)
+  ;; (use-package ox-jira
+  ;;   :ensure t)
+  ;; (use-package ox-slack
+  ;;   :ensure t)
 #+END_SRC
 *** References template
 A template to support consistent properties in reference documents.
@@ -567,28 +527,19 @@ To speed up writing ~#SRC emacs-lisp~ blocks in conf.org.
 *** TOC Snippet
 I usually want this to be disabled, so a snippet can speed this up.
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'org-structure-template-alist
-    (list "toc" "#+OPTIONS: toc:?"))
+;(add-to-list 'org-structure-template-alist
+;    (list "toc" "#+OPTIONS: toc:?"))
 #+END_SRC
 *** Ruby Snippet
 Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet shortcut will save a little time.
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'org-structure-template-alist
-    (list "sr" (concat "#+BEGIN_SRC ruby\n"
-                        "?\n"
-                        "#+END_SRC")))
+  ;; (add-to-list 'org-structure-template-alist
+  ;;     (list "sr" (concat "#+BEGIN_SRC ruby\n"
+  ;;                         "?\n"
+  ;;                         "#+END_SRC")))
 #+END_SRC
 *** Org-Export backends
 #+BEGIN_SRC emacs-lisp
-(use-package ox-jira
-  :ensure t)
-(use-package ox-slack
-  :ensure t)
-(use-package ox-pandoc
-  :ensure t)
-(use-package ox-html)
-(use-package ox-reveal
-  :ensure t)
 (setq Org-Reveal-title-slide nil)
 #+END_SRC
 *** Babel
@@ -599,166 +550,15 @@ Since I am writing a lot of Ruby snippets in investigation files, a Ruby snippet
 *** Startup behaviour
 **** Open conf.org
 #+BEGIN_SRC emacs-lisp
-(find-file "~/dotfiles/conf.org")
+(find-file "~/Code/dotfiles/conf.org")
+(find-file "~/org/daily.org")
 #+END_SRC
 ** Thing at Point
 #+BEGIN_SRC emacs-lisp
 (use-package thingatpt
   :ensure t)
 #+END_SRC
-** Local development
-Run all the voice containers in development mode
-#+BEGIN_SRC emacs-lisp
-(defun create-terminal-buffer (bufname)
-  ;;; Create a named terminal buffer
-  (interactive)
-  (term "/bin/zsh")
-  (rename-buffer bufname))
 
-(defun run-terminal-buffer-process (bufname command)
-  ;;; Run a process in a terminal buffer
-  (interactive)
-  (term-send-string
-         (get-buffer-process bufname)
-         (format "%s\r" command)))
-
-(defun create-named-term-processes (buffer-process-list)
-  ;;; Create multiple named terminal processes
-  (interactive)
-  (loop for tuple in buffer-process-list
-        do
-        (let ((bufname (car tuple))
-              (bufcommand (car (cdr tuple))))
-        (create-terminal-buffer bufname)
-        (run-terminal-buffer-process bufname bufcommand))))
-
-(defun classic-run ()
-  ;; Run Classic in development mode
-  (interactive)
-  (create-named-term-processes '(("classic-srv" "zdi classic restart -d"))))
-
-(defun classic-shell ()
-  ;; Run Classic shell
-  (interactive)
-  (create-named-term-processes '(("classic-shell" "zdi classic shell -d"))))
-
-(defun classic-console ()
-  ;; Run Classic console
-  (interactive)
-  (create-named-term-processes '(("classic-console" "zdi classic console -d"))))
-
-
-(defun voice-run-all ()
-  ;;; Run all the voice containers in development mode
-  (interactive)
-  (create-named-term-processes '(("voice_srv" "zdi voice restart -d")
-                                 ("voice_resque" "zdi voice_resque restart -d")
-                                 ("voice_resque_low" "zdi voice_resque_low restart -d")
-                                 ("voice_consumers" "zdi voice_consumers restart -d"))))
-
-(defun voice-run-light ()
-  ;;; Run some of the voice containers in development mode
-  (interactive)
-  (create-named-term-processes '(("voice_srv" "zdi voice restart -d")
-                                 ("voice_resque" "zdi voice_resque restart -d"))))
-
-(defun voice-shell ()
-  (interactive)
-  (create-named-term-processes '(("voice-shell" "zdi voice shell -d"))))
-
-(defun voice-console ()
-  (interactive)
-  (create-named-term-processes '(("voice-console" "zdi voice console -d"))))
-
-(defun sms-run-light ()
-  ;;; Run some of the voice containers in development mode
-  (interactive)
-  (create-named-term-processes '(("sms_srv" "zdi sms restart -d")
-                                 ("sms_resque" "zdi sms_resque restart -d"))))
-
-(defun sms-shell ()
-  (interactive)
-  (create-named-term-processes '(("sms-shell" "zdi sms shell -d"))))
-
-(defun sms-console ()
-  (interactive)
-  (create-named-term-processes '(("sms-console" "zdi sms console -d"))))
-
-(defun start-world ()
-  (interactive)
-  (create-named-term-processes '(("term" "zdi world restart"))))
-#+END_SRC
-*** Putzing about with keymaps
-#+BEGIN_SRC emacs-lisp
-(defun add-keys (keymap)
-  (interactive)
-  (define-key keymap "a" (lambda () (interactive) (message "And then A")))
-  (define-key keymap "b" (lambda () (interactive) (message "And then B"))))
-
-(let ((message-map (make-sparse-keymap "Message Map")))
-  (let ((a-nested-message-map (make-sparse-keymap "You pressed A"))
-        (b-nested-message-map (make-sparse-keymap "You pressed B")))
-    (define-key message-map "a" a-nested-message-map)
-    (define-key message-map "b" b-nested-message-map)
-    (when (keymapp a-nested-message-map) (message "Yes it is a message map"))
-    (map 'list 'add-keys (list a-nested-message-map b-nested-message-map)))
-  (global-set-key (kbd "C-z") message-map))
-#+END_SRC
-*** The behaviour we need
-- Press C-z to get into the ZDI keymap.
-- Press v to get into the Voice keymap
-- Display prompt of keymap options
-- Press any of keymap to execute the bound function
-*** The data we need
-#+BEGIN_SRC emacs-lisp
-  ;;(defvar keymap-name (keymap-prompt (list (command-kbd, func))))
-  (defvar my-keymap-var 
-    (list "my-keymap" "My Keymap: " 
-    (lambda () (interactive) (message "Function from my keymap"))))
-
-  (defvar my-keymap-var 
-    (list "my-keymap" "[MyKeymap]:" 
-    (list (list "key" (lambda () (interactive) (some-end-function))))))
-
-  ;; (let (intern "my-keymap" (make-sparse-keymap (prompt-of my-keymap-var)))
-  ;;     (map 'list 
-  ;;     (lambda (binding) 
-  ;;     (define-key (intern "my-keymap") (name-of binding) (command-of binding))) 
-  ;;     (command-bindings-of my-keymap-var)))
-
-  (require 'cl-lib)
-  (cl-defstruct (key-binding (:constructor key-binding-create)
-                             (:copier nil))
-    key func)
-  (cl-defstruct (keymap-obj (:constructor keymap-obj-create)
-                            (:copier nil))
-    name prompt key-bindings)
-
-  (defvar my-command (key-binding-create :key "c" :func (lambda () (interactive) (message "C!"))))
-  (defvar my-keymap-obj (keymap-obj-create :name "my-keymap" :prompt "[Keymap]" :key-bindings (list my-command)))
-
-  ;; This should take a command and a keymap argument and be partially applied with the keymap
-  (defun bind-command (command)
-    (define-key my-keymap (key-binding-key command) (key-binding-func command)))
-
-  ;;(defalias bind-command-keymap (apply-partially 'bind-command my-keymap))
-
-  
-  (let ((my-keymap (make-sparse-keymap (keymap-obj-prompt my-keymap-obj))))
-    (map 'list 'bind-command (keymap-obj-key-bindings my-keymap-obj))
-    (global-set-key (kbd "C-z") my-keymap))
-  
-  ;;(map 'list  (lambda (s) (message (car s))) (list my-seemap))
-  ;; backtick plus comma allows selective evaluation
-  (eval-expression `(defvar ,(intern "somevar") (+ 3 3)))
-
-#+END_SRC
-- Bind C-z to a keymap
-- Bind v to a keymap within this keymap
-- Bind commands to keys within the keymap
-*** The code we need
-- Define a keymap programmatically
-- 
 ** Theme
 Doom-theme is pretty cool.
 #+BEGIN_SRC emacs-lisp
@@ -767,16 +567,13 @@ Doom-theme is pretty cool.
     :config
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-spacegrey t)
+    (load-theme 'doom-wilmersdorf t)
     (doom-themes-visual-bell-config)
     (doom-themes-org-config))
 
-  (use-package solarized-theme
-    :ensure t)
-
   (defun toggle-theme ()
     (interactive)
-    (disable-theme 'doom-spacegrey)
+    (disable-theme 'doom-wilmersdorf)
     (load-theme 'solarized-light t))
 #+END_SRC
 ** Provide Init
